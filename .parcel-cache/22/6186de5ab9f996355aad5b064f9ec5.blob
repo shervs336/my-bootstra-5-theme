@@ -1,0 +1,8 @@
+import   "81cf8961fb1474ba5f13696f0b858d7f:./getNodeName.js";
+function $81cf8961fb1474ba5f13696f0b858d7f$export$9099ad97b570f7c(element) {
+    return [
+        'table',
+        'td',
+        'th'
+    ].indexOf($81cf8961fb1474ba5f13696f0b858d7f$import$4bdf6051907467b6$9099ad97b570f7c(element)) >= 0;
+}

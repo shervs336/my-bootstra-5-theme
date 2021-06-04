@@ -1,0 +1,6 @@
+function $05f3befabf7c7b9375629ac0bbfb4878$export$9099ad97b570f7c(placement) {
+    return [
+        'top',
+        'bottom'
+    ].indexOf(placement) >= 0 ? 'x' : 'y';
+}

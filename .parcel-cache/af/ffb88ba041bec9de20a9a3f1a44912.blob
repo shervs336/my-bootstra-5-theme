@@ -1,0 +1,9 @@
+var $f906673aa6118cdbc4f3eea561e87acd$var$hash = {
+    start: 'end',
+    end: 'start'
+};
+function $f906673aa6118cdbc4f3eea561e87acd$export$9099ad97b570f7c(placement) {
+    return placement.replace(/start|end/g, function(matched) {
+        return $f906673aa6118cdbc4f3eea561e87acd$var$hash[matched];
+    });
+}

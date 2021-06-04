@@ -1,0 +1,57 @@
+import   "cae5dedc5087c75bebf44eef59c93dd6:./getBasePlacement.js";
+import   "cae5dedc5087c75bebf44eef59c93dd6:./getVariation.js";
+import   "cae5dedc5087c75bebf44eef59c93dd6:./getMainAxisFromPlacement.js";
+import   "cae5dedc5087c75bebf44eef59c93dd6:../enums.js";
+function $cae5dedc5087c75bebf44eef59c93dd6$export$9099ad97b570f7c(_ref) {
+    var reference = _ref.reference, element = _ref.element, placement = _ref.placement;
+    var basePlacement = placement ? $cae5dedc5087c75bebf44eef59c93dd6$import$ce46c78b8ac3d45a$9099ad97b570f7c(placement) : null;
+    var variation = placement ? $cae5dedc5087c75bebf44eef59c93dd6$import$40d49ce8c21db176$9099ad97b570f7c(placement) : null;
+    var commonX = reference.x + reference.width / 2 - element.width / 2;
+    var commonY = reference.y + reference.height / 2 - element.height / 2;
+    var offsets;
+    switch(basePlacement){
+        case $cae5dedc5087c75bebf44eef59c93dd6$import$88f92b88dee0affc$7cbaf698fabef892:
+            offsets = {
+                x: commonX,
+                y: reference.y - element.height
+            };
+            break;
+        case $cae5dedc5087c75bebf44eef59c93dd6$import$88f92b88dee0affc$4671657546f52557:
+            offsets = {
+                x: commonX,
+                y: reference.y + reference.height
+            };
+            break;
+        case $cae5dedc5087c75bebf44eef59c93dd6$import$88f92b88dee0affc$2ea344c6f4e18f30:
+            offsets = {
+                x: reference.x + reference.width,
+                y: commonY
+            };
+            break;
+        case $cae5dedc5087c75bebf44eef59c93dd6$import$88f92b88dee0affc$febc29d6ae0474e5:
+            offsets = {
+                x: reference.x - element.width,
+                y: commonY
+            };
+            break;
+        default:
+            offsets = {
+                x: reference.x,
+                y: reference.y
+            };
+    }
+    var mainAxis = basePlacement ? $cae5dedc5087c75bebf44eef59c93dd6$import$e5b58264e5ce0577$9099ad97b570f7c(basePlacement) : null;
+    if (mainAxis != null) {
+        var len = mainAxis === 'y' ? 'height' : 'width';
+        switch(variation){
+            case $cae5dedc5087c75bebf44eef59c93dd6$import$88f92b88dee0affc$42328a91b0e9c643:
+                offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
+                break;
+            case $cae5dedc5087c75bebf44eef59c93dd6$import$88f92b88dee0affc$5efb45aedabbf4f3:
+                offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
+                break;
+            default:
+        }
+    }
+    return offsets;
+}

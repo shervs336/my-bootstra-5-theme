@@ -1,0 +1,25 @@
+$body-bg: rgb(27, 27, 27);
+$body-color: white;
+$primary: rgb(0, 119, 255);
+
+$font-family-sans-serif: 'Poppins', sans-serif;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+.custombg {
+    background: black url('../assets/abstract.jpg');
+    background-size: cover;
+}
+
+.bg-gray-custom {
+    background-color: rgb(40, 40, 40);
+}
+
+.text-light-gray {
+    color: rgb(194, 194, 194);
+}
+
+.object-fit {
+    object-fit: cover;
+    aspect-ratio: 1 / .7;
+}

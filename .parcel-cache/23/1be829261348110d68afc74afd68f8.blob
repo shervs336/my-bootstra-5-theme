@@ -1,0 +1,8 @@
+function $c4f17fc60127ce20842bc5dc88881356$export$9099ad97b570f7c(node) {
+    if (node == null) return window;
+    if (node.toString() !== '[object Window]') {
+        var ownerDocument = node.ownerDocument;
+        return ownerDocument ? ownerDocument.defaultView || window : window;
+    }
+    return node;
+}

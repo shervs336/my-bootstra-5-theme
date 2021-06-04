@@ -1,0 +1,5 @@
+import   "b945510d63724667a4ecef8a1668cb66:./getFreshSideObject.js";
+function $b945510d63724667a4ecef8a1668cb66$export$9099ad97b570f7c(paddingObject) {
+    return Object.assign({
+    }, $b945510d63724667a4ecef8a1668cb66$import$c4c9aa4ec8a8b79c$9099ad97b570f7c(), paddingObject);
+}

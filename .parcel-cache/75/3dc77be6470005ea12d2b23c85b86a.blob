@@ -1,0 +1,34 @@
+import   "0ba86c06a8f17c7a0007680968eeb766:../enums.js";
+function $0ba86c06a8f17c7a0007680968eeb766$var$order(modifiers) {
+    var map = new Map();
+    var visited = new Set();
+    var result = [];
+    modifiers.forEach(function(modifier) {
+        map.set(modifier.name, modifier);
+    }); // On visiting object, check for its dependencies and visit them recursively
+    function sort(modifier) {
+        visited.add(modifier.name);
+        var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);
+        requires.forEach(function(dep) {
+            if (!visited.has(dep)) {
+                var depModifier = map.get(dep);
+                if (depModifier) sort(depModifier);
+            }
+        });
+        result.push(modifier);
+    }
+    modifiers.forEach(function(modifier) {
+        if (!visited.has(modifier.name)) // check for visited object
+        sort(modifier);
+    });
+    return result;
+}
+function $0ba86c06a8f17c7a0007680968eeb766$export$9099ad97b570f7c(modifiers) {
+    // order based on dependencies
+    var orderedModifiers = $0ba86c06a8f17c7a0007680968eeb766$var$order(modifiers); // order based on phase
+    return $0ba86c06a8f17c7a0007680968eeb766$import$88f92b88dee0affc$73db2c028a5a51a.reduce(function(acc, phase) {
+        return acc.concat(orderedModifiers.filter(function(modifier) {
+            return modifier.phase === phase;
+        }));
+    }, []);
+}

@@ -1,0 +1,10 @@
+import   "f99e0bb441c2e849c311d2092e4b0dc2:./getWindow.js";
+function $f99e0bb441c2e849c311d2092e4b0dc2$export$9099ad97b570f7c(node) {
+    var win = $f99e0bb441c2e849c311d2092e4b0dc2$import$f7002d1ac9f67024$9099ad97b570f7c(node);
+    var scrollLeft = win.pageXOffset;
+    var scrollTop = win.pageYOffset;
+    return {
+        scrollLeft: scrollLeft,
+        scrollTop: scrollTop
+    };
+}

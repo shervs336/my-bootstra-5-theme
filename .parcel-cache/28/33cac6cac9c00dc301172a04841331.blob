@@ -1,0 +1,3 @@
+function $e97db211f75847a627eb83bf488b9931$export$9099ad97b570f7c(placement) {
+    return placement.split('-')[1];
+}

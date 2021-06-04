@@ -1,0 +1,52 @@
+import   "90f7244ee8d8130336014f26e6f99f6b:../utils/getBasePlacement.js";
+import   "90f7244ee8d8130336014f26e6f99f6b:../enums.js";
+function $90f7244ee8d8130336014f26e6f99f6b$export$40f76549af4e7e8b(placement, rects, offset) {
+    var basePlacement = $90f7244ee8d8130336014f26e6f99f6b$import$1ae2404101a162fe$9099ad97b570f7c(placement);
+    var invertDistance = [
+        $90f7244ee8d8130336014f26e6f99f6b$import$88f92b88dee0affc$febc29d6ae0474e5,
+        $90f7244ee8d8130336014f26e6f99f6b$import$88f92b88dee0affc$7cbaf698fabef892
+    ].indexOf(basePlacement) >= 0 ? -1 : 1;
+    var _ref = typeof offset === 'function' ? offset(Object.assign({
+    }, rects, {
+        placement: placement
+    })) : offset, skidding = _ref[0], distance = _ref[1];
+    skidding = skidding || 0;
+    distance = (distance || 0) * invertDistance;
+    return [
+        $90f7244ee8d8130336014f26e6f99f6b$import$88f92b88dee0affc$febc29d6ae0474e5,
+        $90f7244ee8d8130336014f26e6f99f6b$import$88f92b88dee0affc$2ea344c6f4e18f30
+    ].indexOf(basePlacement) >= 0 ? {
+        x: distance,
+        y: skidding
+    } : {
+        x: skidding,
+        y: distance
+    };
+}
+function $90f7244ee8d8130336014f26e6f99f6b$var$offset(_ref2) {
+    var state = _ref2.state, options = _ref2.options, name = _ref2.name;
+    var _options$offset = options.offset, offset = _options$offset === void 0 ? [
+        0,
+        0
+    ] : _options$offset;
+    var data = $90f7244ee8d8130336014f26e6f99f6b$import$88f92b88dee0affc$de70404ba7dda3a8.reduce(function(acc, placement) {
+        acc[placement] = $90f7244ee8d8130336014f26e6f99f6b$export$40f76549af4e7e8b(placement, state.rects, offset);
+        return acc;
+    }, {
+    });
+    var _data$state$placement = data[state.placement], x = _data$state$placement.x, y = _data$state$placement.y;
+    if (state.modifiersData.popperOffsets != null) {
+        state.modifiersData.popperOffsets.x += x;
+        state.modifiersData.popperOffsets.y += y;
+    }
+    state.modifiersData[name] = data;
+} // eslint-disable-next-line import/no-unused-modules
+var $90f7244ee8d8130336014f26e6f99f6b$export$9099ad97b570f7c = {
+    name: 'offset',
+    enabled: true,
+    phase: 'main',
+    requires: [
+        'popperOffsets'
+    ],
+    fn: $90f7244ee8d8130336014f26e6f99f6b$var$offset
+};

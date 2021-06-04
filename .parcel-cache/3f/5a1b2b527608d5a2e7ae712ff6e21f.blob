@@ -1,0 +1,163 @@
+import   "ac0d4f336785e89649192e66e930435c:./dom-utils/getCompositeRect.js";
+import   "ac0d4f336785e89649192e66e930435c:./dom-utils/getLayoutRect.js";
+import   "ac0d4f336785e89649192e66e930435c:./dom-utils/listScrollParents.js";
+import   "ac0d4f336785e89649192e66e930435c:./dom-utils/getOffsetParent.js";
+import   "ac0d4f336785e89649192e66e930435c:./dom-utils/getComputedStyle.js";
+import   "ac0d4f336785e89649192e66e930435c:./utils/orderModifiers.js";
+import   "ac0d4f336785e89649192e66e930435c:./utils/debounce.js";
+import   "ac0d4f336785e89649192e66e930435c:./utils/validateModifiers.js";
+import   "ac0d4f336785e89649192e66e930435c:./utils/uniqueBy.js";
+import   "ac0d4f336785e89649192e66e930435c:./utils/getBasePlacement.js";
+import   "ac0d4f336785e89649192e66e930435c:./utils/mergeByName.js";
+import   "ac0d4f336785e89649192e66e930435c:./utils/detectOverflow.js";
+import   "ac0d4f336785e89649192e66e930435c:./dom-utils/instanceOf.js";
+import   "ac0d4f336785e89649192e66e930435c:./enums.js";
+var $ac0d4f336785e89649192e66e930435c$var$INVALID_ELEMENT_ERROR = 'Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.';
+var $ac0d4f336785e89649192e66e930435c$var$INFINITE_LOOP_ERROR = 'Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.';
+var $ac0d4f336785e89649192e66e930435c$var$DEFAULT_OPTIONS = {
+    placement: 'bottom',
+    modifiers: [],
+    strategy: 'absolute'
+};
+function $ac0d4f336785e89649192e66e930435c$var$areValidElements() {
+    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+    return !args.some(function(element) {
+        return !(element && typeof element.getBoundingClientRect === 'function');
+    });
+}
+function $ac0d4f336785e89649192e66e930435c$export$e67bca68f62822b8(generatorOptions) {
+    if (generatorOptions === void 0) generatorOptions = {
+    };
+    var _generatorOptions = generatorOptions, _generatorOptions$def = _generatorOptions.defaultModifiers, defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def, _generatorOptions$def2 = _generatorOptions.defaultOptions, defaultOptions = _generatorOptions$def2 === void 0 ? $ac0d4f336785e89649192e66e930435c$var$DEFAULT_OPTIONS : _generatorOptions$def2;
+    return function createPopper(reference, popper, options) {
+        if (options === void 0) options = defaultOptions;
+        var state = {
+            placement: 'bottom',
+            orderedModifiers: [],
+            options: Object.assign({
+            }, $ac0d4f336785e89649192e66e930435c$var$DEFAULT_OPTIONS, defaultOptions),
+            modifiersData: {
+            },
+            elements: {
+                reference: reference,
+                popper: popper
+            },
+            attributes: {
+            },
+            styles: {
+            }
+        };
+        var effectCleanupFns = [];
+        var isDestroyed = false;
+        var instance = {
+            state: state,
+            setOptions: function setOptions(options1) {
+                cleanupModifierEffects();
+                state.options = Object.assign({
+                }, defaultOptions, state.options, options1);
+                state.scrollParents = {
+                    reference: $ac0d4f336785e89649192e66e930435c$import$8a7faa77e2125b3$91dc0a56c48748ff(reference) ? $ac0d4f336785e89649192e66e930435c$import$a936a672dd0fd7c6$9099ad97b570f7c(reference) : reference.contextElement ? $ac0d4f336785e89649192e66e930435c$import$a936a672dd0fd7c6$9099ad97b570f7c(reference.contextElement) : [],
+                    popper: $ac0d4f336785e89649192e66e930435c$import$a936a672dd0fd7c6$9099ad97b570f7c(popper)
+                }; // Orders the modifiers based on their dependencies and `phase`
+                // properties
+                var orderedModifiers = $ac0d4f336785e89649192e66e930435c$import$229e6a8c3ea246af$9099ad97b570f7c($ac0d4f336785e89649192e66e930435c$import$6e25794c829b7067$9099ad97b570f7c([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
+                state.orderedModifiers = orderedModifiers.filter(function(m) {
+                    return m.enabled;
+                }); // Validate the provided modifiers so that the consumer will get warned
+                var modifiers, _ref, name, flipModifier, _ref2, name1, _getComputedStyle, marginTop, marginRight, marginBottom, marginLeft, margin;
+                runModifierEffects();
+                return instance.update();
+            },
+            // Sync update – it will always be executed, even if not necessary. This
+            // is useful for low frequency updates where sync behavior simplifies the
+            // logic.
+            // For high frequency updates (e.g. `resize` and `scroll` events), always
+            // prefer the async Popper#update method
+            forceUpdate: function forceUpdate() {
+                if (isDestroyed) return;
+                var _state$elements = state.elements, reference1 = _state$elements.reference, popper1 = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
+                // anymore
+                if (!$ac0d4f336785e89649192e66e930435c$var$areValidElements(reference1, popper1)) return;
+                 // Store the reference and popper rects to be read by modifiers
+                state.rects = {
+                    reference: $ac0d4f336785e89649192e66e930435c$import$cf17478a4db24154$9099ad97b570f7c(reference1, $ac0d4f336785e89649192e66e930435c$import$ede14dae987269b9$9099ad97b570f7c(popper1), state.options.strategy === 'fixed'),
+                    popper: $ac0d4f336785e89649192e66e930435c$import$d0ef2370f0318e52$9099ad97b570f7c(popper1)
+                }; // Modifiers have the ability to reset the current update cycle. The
+                // most common use case for this is the `flip` modifier changing the
+                // placement, which then needs to re-run all the modifiers, because the
+                // logic was previously ran for the previous placement and is therefore
+                // stale/incorrect
+                state.reset = false;
+                state.placement = state.options.placement; // On each update cycle, the `modifiersData` property for each modifier
+                // is filled with the initial data specified by the modifier. This means
+                // it doesn't persist and is fresh on each update.
+                // To ensure persistent data, use `${name}#persistent`
+                state.orderedModifiers.forEach(function(modifier) {
+                    return state.modifiersData[modifier.name] = Object.assign({
+                    }, modifier.data);
+                });
+                var __debug_loops__ = 0;
+                for(var index = 0; index < state.orderedModifiers.length; index++){
+                    if (state.reset === true) {
+                        state.reset = false;
+                        index = -1;
+                        continue;
+                    }
+                    var _state$orderedModifie = state.orderedModifiers[index], fn = _state$orderedModifie.fn, _state$orderedModifie2 = _state$orderedModifie.options, _options = _state$orderedModifie2 === void 0 ? {
+                    } : _state$orderedModifie2, name = _state$orderedModifie.name;
+                    if (typeof fn === 'function') state = fn({
+                        state: state,
+                        options: _options,
+                        name: name,
+                        instance: instance
+                    }) || state;
+                }
+            },
+            // Async and optimistically optimized update – it will not be executed if
+            // not necessary (debounced to run at most once-per-tick)
+            update: $ac0d4f336785e89649192e66e930435c$import$7f8eeb168175eddd$9099ad97b570f7c(function() {
+                return new Promise(function(resolve) {
+                    instance.forceUpdate();
+                    resolve(state);
+                });
+            }),
+            destroy: function destroy() {
+                cleanupModifierEffects();
+                isDestroyed = true;
+            }
+        };
+        if (!$ac0d4f336785e89649192e66e930435c$var$areValidElements(reference, popper)) return instance;
+        instance.setOptions(options).then(function(state1) {
+            if (!isDestroyed && options.onFirstUpdate) options.onFirstUpdate(state1);
+        }); // Modifiers have the ability to execute arbitrary code before the first
+        // update cycle runs. They will be executed in the same order as the update
+        // cycle. This is useful when a modifier adds some persistent data that
+        // other modifiers need to use, but the modifier is run after the dependent
+        // one.
+        function runModifierEffects() {
+            state.orderedModifiers.forEach(function(_ref3) {
+                var name = _ref3.name, _ref3$options = _ref3.options, options1 = _ref3$options === void 0 ? {
+                } : _ref3$options, effect = _ref3.effect;
+                if (typeof effect === 'function') {
+                    var cleanupFn = effect({
+                        state: state,
+                        name: name,
+                        instance: instance,
+                        options: options1
+                    });
+                    var noopFn = function noopFn1() {
+                    };
+                    effectCleanupFns.push(cleanupFn || noopFn);
+                }
+            });
+        }
+        function cleanupModifierEffects() {
+            effectCleanupFns.forEach(function(fn) {
+                return fn();
+            });
+            effectCleanupFns = [];
+        }
+        return instance;
+    };
+}
+var $ac0d4f336785e89649192e66e930435c$export$f9bf60dd22404f66 = /*#__PURE__*/ $ac0d4f336785e89649192e66e930435c$export$e67bca68f62822b8(); // eslint-disable-next-line import/no-unused-modules

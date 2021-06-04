@@ -1,0 +1,30 @@
+import   "9864ef9fb7fe9b641c9f971da4b2eda1:../dom-utils/getWindow.js";
+var $9864ef9fb7fe9b641c9f971da4b2eda1$var$passive = {
+    passive: true
+};
+function $9864ef9fb7fe9b641c9f971da4b2eda1$var$effect(_ref) {
+    var state = _ref.state, instance = _ref.instance, options = _ref.options;
+    var _options$scroll = options.scroll, scroll = _options$scroll === void 0 ? true : _options$scroll, _options$resize = options.resize, resize = _options$resize === void 0 ? true : _options$resize;
+    var window = $9864ef9fb7fe9b641c9f971da4b2eda1$import$6c06eb4f00bec306$9099ad97b570f7c(state.elements.popper);
+    var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
+    if (scroll) scrollParents.forEach(function(scrollParent) {
+        scrollParent.addEventListener('scroll', instance.update, $9864ef9fb7fe9b641c9f971da4b2eda1$var$passive);
+    });
+    if (resize) window.addEventListener('resize', instance.update, $9864ef9fb7fe9b641c9f971da4b2eda1$var$passive);
+    return function() {
+        if (scroll) scrollParents.forEach(function(scrollParent) {
+            scrollParent.removeEventListener('scroll', instance.update, $9864ef9fb7fe9b641c9f971da4b2eda1$var$passive);
+        });
+        if (resize) window.removeEventListener('resize', instance.update, $9864ef9fb7fe9b641c9f971da4b2eda1$var$passive);
+    };
+} // eslint-disable-next-line import/no-unused-modules
+var $9864ef9fb7fe9b641c9f971da4b2eda1$export$9099ad97b570f7c = {
+    name: 'eventListeners',
+    enabled: true,
+    phase: 'write',
+    fn: function fn() {
+    },
+    effect: $9864ef9fb7fe9b641c9f971da4b2eda1$var$effect,
+    data: {
+    }
+};

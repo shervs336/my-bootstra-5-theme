@@ -1,0 +1,52 @@
+var $54a81e5d9606ee4965720a50118a3c05$export$7cbaf698fabef892 = 'top';
+var $54a81e5d9606ee4965720a50118a3c05$export$4671657546f52557 = 'bottom';
+var $54a81e5d9606ee4965720a50118a3c05$export$2ea344c6f4e18f30 = 'right';
+var $54a81e5d9606ee4965720a50118a3c05$export$febc29d6ae0474e5 = 'left';
+var $54a81e5d9606ee4965720a50118a3c05$export$a9bdd2aafec72a8 = 'auto';
+var $54a81e5d9606ee4965720a50118a3c05$export$69ccf582aabcc804 = [
+    $54a81e5d9606ee4965720a50118a3c05$export$7cbaf698fabef892,
+    $54a81e5d9606ee4965720a50118a3c05$export$4671657546f52557,
+    $54a81e5d9606ee4965720a50118a3c05$export$2ea344c6f4e18f30,
+    $54a81e5d9606ee4965720a50118a3c05$export$febc29d6ae0474e5
+];
+var $54a81e5d9606ee4965720a50118a3c05$export$42328a91b0e9c643 = 'start';
+var $54a81e5d9606ee4965720a50118a3c05$export$5efb45aedabbf4f3 = 'end';
+var $54a81e5d9606ee4965720a50118a3c05$export$983ac427d09ca219 = 'clippingParents';
+var $54a81e5d9606ee4965720a50118a3c05$export$10719bbe9c2e718 = 'viewport';
+var $54a81e5d9606ee4965720a50118a3c05$export$8fbf1c089546fa4 = 'popper';
+var $54a81e5d9606ee4965720a50118a3c05$export$6c351871f3b74481 = 'reference';
+var $54a81e5d9606ee4965720a50118a3c05$export$bb2c2dfcb4a647ed = /*#__PURE__*/ $54a81e5d9606ee4965720a50118a3c05$export$69ccf582aabcc804.reduce(function(acc, placement) {
+    return acc.concat([
+        placement + "-" + $54a81e5d9606ee4965720a50118a3c05$export$42328a91b0e9c643,
+        placement + "-" + $54a81e5d9606ee4965720a50118a3c05$export$5efb45aedabbf4f3
+    ]);
+}, []);
+var $54a81e5d9606ee4965720a50118a3c05$export$de70404ba7dda3a8 = /*#__PURE__*/ [].concat($54a81e5d9606ee4965720a50118a3c05$export$69ccf582aabcc804, [
+    $54a81e5d9606ee4965720a50118a3c05$export$a9bdd2aafec72a8
+]).reduce(function(acc, placement) {
+    return acc.concat([
+        placement,
+        placement + "-" + $54a81e5d9606ee4965720a50118a3c05$export$42328a91b0e9c643,
+        placement + "-" + $54a81e5d9606ee4965720a50118a3c05$export$5efb45aedabbf4f3
+    ]);
+}, []); // modifiers that need to read the DOM
+var $54a81e5d9606ee4965720a50118a3c05$export$999466dabf1e6a4e = 'beforeRead';
+var $54a81e5d9606ee4965720a50118a3c05$export$2c262a1484748b93 = 'read';
+var $54a81e5d9606ee4965720a50118a3c05$export$262cee7c42a90df8 = 'afterRead'; // pure-logic modifiers
+var $54a81e5d9606ee4965720a50118a3c05$export$79c113f44eb7d52e = 'beforeMain';
+var $54a81e5d9606ee4965720a50118a3c05$export$cc99187a73fc5866 = 'main';
+var $54a81e5d9606ee4965720a50118a3c05$export$68677a787f3cdd14 = 'afterMain'; // modifier with the purpose to write to the DOM (or write into a framework state)
+var $54a81e5d9606ee4965720a50118a3c05$export$69a1d2574b19d5b8 = 'beforeWrite';
+var $54a81e5d9606ee4965720a50118a3c05$export$a9187e77005a4477 = 'write';
+var $54a81e5d9606ee4965720a50118a3c05$export$b5a6aad2d33d2ca6 = 'afterWrite';
+var $54a81e5d9606ee4965720a50118a3c05$export$73db2c028a5a51a = [
+    $54a81e5d9606ee4965720a50118a3c05$export$999466dabf1e6a4e,
+    $54a81e5d9606ee4965720a50118a3c05$export$2c262a1484748b93,
+    $54a81e5d9606ee4965720a50118a3c05$export$262cee7c42a90df8,
+    $54a81e5d9606ee4965720a50118a3c05$export$79c113f44eb7d52e,
+    $54a81e5d9606ee4965720a50118a3c05$export$cc99187a73fc5866,
+    $54a81e5d9606ee4965720a50118a3c05$export$68677a787f3cdd14,
+    $54a81e5d9606ee4965720a50118a3c05$export$69a1d2574b19d5b8,
+    $54a81e5d9606ee4965720a50118a3c05$export$a9187e77005a4477,
+    $54a81e5d9606ee4965720a50118a3c05$export$b5a6aad2d33d2ca6
+];

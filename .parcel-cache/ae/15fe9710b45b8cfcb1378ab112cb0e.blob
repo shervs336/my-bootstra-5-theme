@@ -1,0 +1,7 @@
+function $8e6de0b1ee94bfc0fd7ee9470789e7a0$export$9099ad97b570f7c(value, keys) {
+    return keys.reduce(function(hashMap, key) {
+        hashMap[key] = value;
+        return hashMap;
+    }, {
+    });
+}

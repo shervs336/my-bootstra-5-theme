@@ -1,0 +1,22 @@
+import   "2c8180c3b682c7101c8116b1c0e688e2:./getDocumentElement.js";
+import   "2c8180c3b682c7101c8116b1c0e688e2:./getComputedStyle.js";
+import   "2c8180c3b682c7101c8116b1c0e688e2:./getWindowScrollBarX.js";
+import   "2c8180c3b682c7101c8116b1c0e688e2:./getWindowScroll.js";
+import   "2c8180c3b682c7101c8116b1c0e688e2:../utils/math.js";
+function $2c8180c3b682c7101c8116b1c0e688e2$export$9099ad97b570f7c(element) {
+    var _element$ownerDocumen;
+    var html = $2c8180c3b682c7101c8116b1c0e688e2$import$e5609743a9ff7976$9099ad97b570f7c(element);
+    var winScroll = $2c8180c3b682c7101c8116b1c0e688e2$import$f34ad2ff624e8ed0$9099ad97b570f7c(element);
+    var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
+    var width = $2c8180c3b682c7101c8116b1c0e688e2$import$c7001cdb7ba93dc7$ffab2942a44255a3(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
+    var height = $2c8180c3b682c7101c8116b1c0e688e2$import$c7001cdb7ba93dc7$ffab2942a44255a3(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
+    var x = -winScroll.scrollLeft + $2c8180c3b682c7101c8116b1c0e688e2$import$abc457ce98130c9e$9099ad97b570f7c(element);
+    var y = -winScroll.scrollTop;
+    if ($2c8180c3b682c7101c8116b1c0e688e2$import$4e3bd0330bffab4a$9099ad97b570f7c(body || html).direction === 'rtl') x += $2c8180c3b682c7101c8116b1c0e688e2$import$c7001cdb7ba93dc7$ffab2942a44255a3(html.clientWidth, body ? body.clientWidth : 0) - width;
+    return {
+        width: width,
+        height: height,
+        x: x,
+        y: y
+    };
+}

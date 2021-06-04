@@ -1,0 +1,64 @@
+import   "4b44837a0db1bf8c728858885cd2c065:../enums.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./getViewportRect.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./getDocumentRect.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./listScrollParents.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./getOffsetParent.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./getDocumentElement.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./getComputedStyle.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./instanceOf.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./getBoundingClientRect.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./getParentNode.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./contains.js";
+import   "4b44837a0db1bf8c728858885cd2c065:./getNodeName.js";
+import   "4b44837a0db1bf8c728858885cd2c065:../utils/rectToClientRect.js";
+import   "4b44837a0db1bf8c728858885cd2c065:../utils/math.js";
+function $4b44837a0db1bf8c728858885cd2c065$var$getInnerBoundingClientRect(element) {
+    var rect = $4b44837a0db1bf8c728858885cd2c065$import$96dd0daaf69028d6$9099ad97b570f7c(element);
+    rect.top = rect.top + element.clientTop;
+    rect.left = rect.left + element.clientLeft;
+    rect.bottom = rect.top + element.clientHeight;
+    rect.right = rect.left + element.clientWidth;
+    rect.width = element.clientWidth;
+    rect.height = element.clientHeight;
+    rect.x = rect.left;
+    rect.y = rect.top;
+    return rect;
+}
+function $4b44837a0db1bf8c728858885cd2c065$var$getClientRectFromMixedType(element, clippingParent) {
+    return clippingParent === $4b44837a0db1bf8c728858885cd2c065$import$88f92b88dee0affc$10719bbe9c2e718 ? $4b44837a0db1bf8c728858885cd2c065$import$e88a52bd194f2141$9099ad97b570f7c($4b44837a0db1bf8c728858885cd2c065$import$65615a10b3ad4e0c$9099ad97b570f7c(element)) : $4b44837a0db1bf8c728858885cd2c065$import$2b619be5b27ce3d0$1c7f855bfd87edc1(clippingParent) ? $4b44837a0db1bf8c728858885cd2c065$var$getInnerBoundingClientRect(clippingParent) : $4b44837a0db1bf8c728858885cd2c065$import$e88a52bd194f2141$9099ad97b570f7c($4b44837a0db1bf8c728858885cd2c065$import$63a5d0079374b20b$9099ad97b570f7c($4b44837a0db1bf8c728858885cd2c065$import$e5609743a9ff7976$9099ad97b570f7c(element)));
+} // A "clipping parent" is an overflowable container with the characteristic of
+// clipping (or hiding) overflowing elements with a position different from
+// `initial`
+function $4b44837a0db1bf8c728858885cd2c065$var$getClippingParents(element) {
+    var clippingParents = $4b44837a0db1bf8c728858885cd2c065$import$bc9e492e42517644$9099ad97b570f7c($4b44837a0db1bf8c728858885cd2c065$import$55e8da2e08ef22b$9099ad97b570f7c(element));
+    var canEscapeClipping = [
+        'absolute',
+        'fixed'
+    ].indexOf($4b44837a0db1bf8c728858885cd2c065$import$4e3bd0330bffab4a$9099ad97b570f7c(element).position) >= 0;
+    var clipperElement = canEscapeClipping && $4b44837a0db1bf8c728858885cd2c065$import$2b619be5b27ce3d0$1c7f855bfd87edc1(element) ? $4b44837a0db1bf8c728858885cd2c065$import$18a1346e7a29d4e$9099ad97b570f7c(element) : element;
+    if (!$4b44837a0db1bf8c728858885cd2c065$import$2b619be5b27ce3d0$91dc0a56c48748ff(clipperElement)) return [];
+     // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
+    return clippingParents.filter(function(clippingParent) {
+        return $4b44837a0db1bf8c728858885cd2c065$import$2b619be5b27ce3d0$91dc0a56c48748ff(clippingParent) && $4b44837a0db1bf8c728858885cd2c065$import$27311d236119a9c6$9099ad97b570f7c(clippingParent, clipperElement) && $4b44837a0db1bf8c728858885cd2c065$import$4bdf6051907467b6$9099ad97b570f7c(clippingParent) !== 'body';
+    });
+} // Gets the maximum area that the element is visible in due to any number of
+function $4b44837a0db1bf8c728858885cd2c065$export$9099ad97b570f7c(element, boundary, rootBoundary) {
+    var mainClippingParents = boundary === 'clippingParents' ? $4b44837a0db1bf8c728858885cd2c065$var$getClippingParents(element) : [].concat(boundary);
+    var clippingParents = [].concat(mainClippingParents, [
+        rootBoundary
+    ]);
+    var firstClippingParent = clippingParents[0];
+    var clippingRect = clippingParents.reduce(function(accRect, clippingParent) {
+        var rect = $4b44837a0db1bf8c728858885cd2c065$var$getClientRectFromMixedType(element, clippingParent);
+        accRect.top = $4b44837a0db1bf8c728858885cd2c065$import$c7001cdb7ba93dc7$ffab2942a44255a3(rect.top, accRect.top);
+        accRect.right = $4b44837a0db1bf8c728858885cd2c065$import$c7001cdb7ba93dc7$d2311d9befc976e2(rect.right, accRect.right);
+        accRect.bottom = $4b44837a0db1bf8c728858885cd2c065$import$c7001cdb7ba93dc7$d2311d9befc976e2(rect.bottom, accRect.bottom);
+        accRect.left = $4b44837a0db1bf8c728858885cd2c065$import$c7001cdb7ba93dc7$ffab2942a44255a3(rect.left, accRect.left);
+        return accRect;
+    }, $4b44837a0db1bf8c728858885cd2c065$var$getClientRectFromMixedType(element, firstClippingParent));
+    clippingRect.width = clippingRect.right - clippingRect.left;
+    clippingRect.height = clippingRect.bottom - clippingRect.top;
+    clippingRect.x = clippingRect.left;
+    clippingRect.y = clippingRect.top;
+    return clippingRect;
+}

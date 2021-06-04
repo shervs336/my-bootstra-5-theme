@@ -1,0 +1,22 @@
+import   "a83e6e23b6221abcd42901a6e5e7fdde:../utils/computeOffsets.js";
+function $a83e6e23b6221abcd42901a6e5e7fdde$var$popperOffsets(_ref) {
+    var state = _ref.state, name = _ref.name;
+    // Offsets are the actual position the popper needs to have to be
+    // properly positioned near its reference element
+    // This is the most basic placement, and will be adjusted by
+    // the modifiers in the next step
+    state.modifiersData[name] = $a83e6e23b6221abcd42901a6e5e7fdde$import$6a49fa984cd3554$9099ad97b570f7c({
+        reference: state.rects.reference,
+        element: state.rects.popper,
+        strategy: 'absolute',
+        placement: state.placement
+    });
+} // eslint-disable-next-line import/no-unused-modules
+var $a83e6e23b6221abcd42901a6e5e7fdde$export$9099ad97b570f7c = {
+    name: 'popperOffsets',
+    enabled: true,
+    phase: 'read',
+    fn: $a83e6e23b6221abcd42901a6e5e7fdde$var$popperOffsets,
+    data: {
+    }
+};

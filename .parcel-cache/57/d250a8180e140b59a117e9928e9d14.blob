@@ -1,0 +1,8 @@
+import   "a21dbd5f53971675ae1ebef73be4000c:./getWindowScroll.js";
+import   "a21dbd5f53971675ae1ebef73be4000c:./getWindow.js";
+import   "a21dbd5f53971675ae1ebef73be4000c:./instanceOf.js";
+import   "a21dbd5f53971675ae1ebef73be4000c:./getHTMLElementScroll.js";
+function $a21dbd5f53971675ae1ebef73be4000c$export$9099ad97b570f7c(node) {
+    if (node === $a21dbd5f53971675ae1ebef73be4000c$import$f7002d1ac9f67024$9099ad97b570f7c(node) || !$a21dbd5f53971675ae1ebef73be4000c$import$2b619be5b27ce3d0$1c7f855bfd87edc1(node)) return $a21dbd5f53971675ae1ebef73be4000c$import$f34ad2ff624e8ed0$9099ad97b570f7c(node);
+    else return $a21dbd5f53971675ae1ebef73be4000c$import$fcb2a19cad26a897$9099ad97b570f7c(node);
+}

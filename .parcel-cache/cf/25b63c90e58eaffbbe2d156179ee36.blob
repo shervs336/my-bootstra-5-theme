@@ -1,0 +1,15 @@
+import   "2279be7a3c1b34634093334135fb9938:./getBoundingClientRect.js";
+function $2279be7a3c1b34634093334135fb9938$export$9099ad97b570f7c(element) {
+    var clientRect = $2279be7a3c1b34634093334135fb9938$import$96dd0daaf69028d6$9099ad97b570f7c(element); // Use the clientRect sizes if it's not been transformed.
+    // Fixes https://github.com/popperjs/popper-core/issues/1223
+    var width = element.offsetWidth;
+    var height = element.offsetHeight;
+    if (Math.abs(clientRect.width - width) <= 1) width = clientRect.width;
+    if (Math.abs(clientRect.height - height) <= 1) height = clientRect.height;
+    return {
+        x: element.offsetLeft,
+        y: element.offsetTop,
+        width: width,
+        height: height
+    };
+}

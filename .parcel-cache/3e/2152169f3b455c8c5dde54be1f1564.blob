@@ -1,0 +1,95 @@
+import   "f3a5b18b39a997ceb2996eab92247690:../enums.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../utils/getBasePlacement.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../utils/getMainAxisFromPlacement.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../utils/getAltAxis.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../utils/within.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../dom-utils/getLayoutRect.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../dom-utils/getOffsetParent.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../utils/detectOverflow.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../utils/getVariation.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../utils/getFreshSideObject.js";
+import   "f3a5b18b39a997ceb2996eab92247690:../utils/math.js";
+function $f3a5b18b39a997ceb2996eab92247690$var$preventOverflow(_ref) {
+    var state = _ref.state, options = _ref.options, name = _ref.name;
+    var _options$mainAxis = options.mainAxis, checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis, _options$altAxis = options.altAxis, checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis, boundary = options.boundary, rootBoundary = options.rootBoundary, altBoundary = options.altBoundary, padding = options.padding, _options$tether = options.tether, tether = _options$tether === void 0 ? true : _options$tether, _options$tetherOffset = options.tetherOffset, tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
+    var overflow = $f3a5b18b39a997ceb2996eab92247690$import$af3f80d568970827$9099ad97b570f7c(state, {
+        boundary: boundary,
+        rootBoundary: rootBoundary,
+        padding: padding,
+        altBoundary: altBoundary
+    });
+    var basePlacement = $f3a5b18b39a997ceb2996eab92247690$import$1ae2404101a162fe$9099ad97b570f7c(state.placement);
+    var variation = $f3a5b18b39a997ceb2996eab92247690$import$8887cdf4fa97f987$9099ad97b570f7c(state.placement);
+    var isBasePlacement = !variation;
+    var mainAxis = $f3a5b18b39a997ceb2996eab92247690$import$14f76a9f34039e9f$9099ad97b570f7c(basePlacement);
+    var altAxis = $f3a5b18b39a997ceb2996eab92247690$import$691286e25ce7955e$9099ad97b570f7c(mainAxis);
+    var popperOffsets = state.modifiersData.popperOffsets;
+    var referenceRect = state.rects.reference;
+    var popperRect = state.rects.popper;
+    var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign({
+    }, state.rects, {
+        placement: state.placement
+    })) : tetherOffset;
+    var data = {
+        x: 0,
+        y: 0
+    };
+    if (!popperOffsets) return;
+    if (checkMainAxis || checkAltAxis) {
+        var mainSide = mainAxis === 'y' ? $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$7cbaf698fabef892 : $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$febc29d6ae0474e5;
+        var altSide = mainAxis === 'y' ? $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$4671657546f52557 : $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$2ea344c6f4e18f30;
+        var len = mainAxis === 'y' ? 'height' : 'width';
+        var offset = popperOffsets[mainAxis];
+        var min = popperOffsets[mainAxis] + overflow[mainSide];
+        var max = popperOffsets[mainAxis] - overflow[altSide];
+        var additive = tether ? -popperRect[len] / 2 : 0;
+        var minLen = variation === $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$42328a91b0e9c643 ? referenceRect[len] : popperRect[len];
+        var maxLen = variation === $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$42328a91b0e9c643 ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
+        // outside the reference bounds
+        var arrowElement = state.elements.arrow;
+        var arrowRect = tether && arrowElement ? $f3a5b18b39a997ceb2996eab92247690$import$99a87cfb9afb5f36$9099ad97b570f7c(arrowElement) : {
+            width: 0,
+            height: 0
+        };
+        var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : $f3a5b18b39a997ceb2996eab92247690$import$99239e9afbbb27c0$9099ad97b570f7c();
+        var arrowPaddingMin = arrowPaddingObject[mainSide];
+        var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
+        // to include its full size in the calculation. If the reference is small
+        // and near the edge of a boundary, the popper can overflow even if the
+        // reference is not overflowing as well (e.g. virtual elements with no
+        // width or height)
+        var arrowLen = $f3a5b18b39a997ceb2996eab92247690$import$8835fd40e81c8378$9099ad97b570f7c(0, referenceRect[len], arrowRect[len]);
+        var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - tetherOffsetValue : minLen - arrowLen - arrowPaddingMin - tetherOffsetValue;
+        var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + tetherOffsetValue : maxLen + arrowLen + arrowPaddingMax + tetherOffsetValue;
+        var arrowOffsetParent = state.elements.arrow && $f3a5b18b39a997ceb2996eab92247690$import$64b28769bda720f4$9099ad97b570f7c(state.elements.arrow);
+        var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
+        var offsetModifierValue = state.modifiersData.offset ? state.modifiersData.offset[state.placement][mainAxis] : 0;
+        var tetherMin = popperOffsets[mainAxis] + minOffset - offsetModifierValue - clientOffset;
+        var tetherMax = popperOffsets[mainAxis] + maxOffset - offsetModifierValue;
+        if (checkMainAxis) {
+            var preventedOffset = $f3a5b18b39a997ceb2996eab92247690$import$8835fd40e81c8378$9099ad97b570f7c(tether ? $f3a5b18b39a997ceb2996eab92247690$import$c7001cdb7ba93dc7$d2311d9befc976e2(min, tetherMin) : min, offset, tether ? $f3a5b18b39a997ceb2996eab92247690$import$c7001cdb7ba93dc7$ffab2942a44255a3(max, tetherMax) : max);
+            popperOffsets[mainAxis] = preventedOffset;
+            data[mainAxis] = preventedOffset - offset;
+        }
+        if (checkAltAxis) {
+            var _mainSide = mainAxis === 'x' ? $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$7cbaf698fabef892 : $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$febc29d6ae0474e5;
+            var _altSide = mainAxis === 'x' ? $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$4671657546f52557 : $f3a5b18b39a997ceb2996eab92247690$import$88f92b88dee0affc$2ea344c6f4e18f30;
+            var _offset = popperOffsets[altAxis];
+            var _min = _offset + overflow[_mainSide];
+            var _max = _offset - overflow[_altSide];
+            var _preventedOffset = $f3a5b18b39a997ceb2996eab92247690$import$8835fd40e81c8378$9099ad97b570f7c(tether ? $f3a5b18b39a997ceb2996eab92247690$import$c7001cdb7ba93dc7$d2311d9befc976e2(_min, tetherMin) : _min, _offset, tether ? $f3a5b18b39a997ceb2996eab92247690$import$c7001cdb7ba93dc7$ffab2942a44255a3(_max, tetherMax) : _max);
+            popperOffsets[altAxis] = _preventedOffset;
+            data[altAxis] = _preventedOffset - _offset;
+        }
+    }
+    state.modifiersData[name] = data;
+} // eslint-disable-next-line import/no-unused-modules
+var $f3a5b18b39a997ceb2996eab92247690$export$9099ad97b570f7c = {
+    name: 'preventOverflow',
+    enabled: true,
+    phase: 'main',
+    fn: $f3a5b18b39a997ceb2996eab92247690$var$preventOverflow,
+    requiresIfExists: [
+        'offset'
+    ]
+};

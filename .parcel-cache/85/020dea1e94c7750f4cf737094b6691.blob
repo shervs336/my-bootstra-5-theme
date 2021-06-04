@@ -1,0 +1,11 @@
+var $88cc193a739635afce7b83401740f56c$var$hash = {
+    left: 'right',
+    right: 'left',
+    bottom: 'top',
+    top: 'bottom'
+};
+function $88cc193a739635afce7b83401740f56c$export$9099ad97b570f7c(placement) {
+    return placement.replace(/left|right|bottom|top/g, function(matched) {
+        return $88cc193a739635afce7b83401740f56c$var$hash[matched];
+    });
+}

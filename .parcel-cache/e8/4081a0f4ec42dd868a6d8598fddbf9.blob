@@ -1,0 +1,8 @@
+function $40b6c17ef4d4a61f620c8505ac173ceb$export$9099ad97b570f7c() {
+    return {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    };
+}

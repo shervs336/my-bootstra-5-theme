@@ -1,0 +1,60 @@
+import   "f192d0414b213dd52082268766afc812:../enums.js";
+import   "f192d0414b213dd52082268766afc812:../utils/detectOverflow.js";
+function $f192d0414b213dd52082268766afc812$var$getSideOffsets(overflow, rect, preventedOffsets) {
+    if (preventedOffsets === void 0) preventedOffsets = {
+        x: 0,
+        y: 0
+    };
+    return {
+        top: overflow.top - rect.height - preventedOffsets.y,
+        right: overflow.right - rect.width + preventedOffsets.x,
+        bottom: overflow.bottom - rect.height + preventedOffsets.y,
+        left: overflow.left - rect.width - preventedOffsets.x
+    };
+}
+function $f192d0414b213dd52082268766afc812$var$isAnySideFullyClipped(overflow) {
+    return [
+        $f192d0414b213dd52082268766afc812$import$88f92b88dee0affc$7cbaf698fabef892,
+        $f192d0414b213dd52082268766afc812$import$88f92b88dee0affc$2ea344c6f4e18f30,
+        $f192d0414b213dd52082268766afc812$import$88f92b88dee0affc$4671657546f52557,
+        $f192d0414b213dd52082268766afc812$import$88f92b88dee0affc$febc29d6ae0474e5
+    ].some(function(side) {
+        return overflow[side] >= 0;
+    });
+}
+function $f192d0414b213dd52082268766afc812$var$hide(_ref) {
+    var state = _ref.state, name = _ref.name;
+    var referenceRect = state.rects.reference;
+    var popperRect = state.rects.popper;
+    var preventedOffsets = state.modifiersData.preventOverflow;
+    var referenceOverflow = $f192d0414b213dd52082268766afc812$import$af3f80d568970827$9099ad97b570f7c(state, {
+        elementContext: 'reference'
+    });
+    var popperAltOverflow = $f192d0414b213dd52082268766afc812$import$af3f80d568970827$9099ad97b570f7c(state, {
+        altBoundary: true
+    });
+    var referenceClippingOffsets = $f192d0414b213dd52082268766afc812$var$getSideOffsets(referenceOverflow, referenceRect);
+    var popperEscapeOffsets = $f192d0414b213dd52082268766afc812$var$getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);
+    var isReferenceHidden = $f192d0414b213dd52082268766afc812$var$isAnySideFullyClipped(referenceClippingOffsets);
+    var hasPopperEscaped = $f192d0414b213dd52082268766afc812$var$isAnySideFullyClipped(popperEscapeOffsets);
+    state.modifiersData[name] = {
+        referenceClippingOffsets: referenceClippingOffsets,
+        popperEscapeOffsets: popperEscapeOffsets,
+        isReferenceHidden: isReferenceHidden,
+        hasPopperEscaped: hasPopperEscaped
+    };
+    state.attributes.popper = Object.assign({
+    }, state.attributes.popper, {
+        'data-popper-reference-hidden': isReferenceHidden,
+        'data-popper-escaped': hasPopperEscaped
+    });
+} // eslint-disable-next-line import/no-unused-modules
+var $f192d0414b213dd52082268766afc812$export$9099ad97b570f7c = {
+    name: 'hide',
+    enabled: true,
+    phase: 'main',
+    requiresIfExists: [
+        'preventOverflow'
+    ],
+    fn: $f192d0414b213dd52082268766afc812$var$hide
+};

@@ -1,0 +1,10 @@
+import   "ee7e57164a84365185613aa165844126:./getNodeName.js";
+import   "ee7e57164a84365185613aa165844126:./getDocumentElement.js";
+import   "ee7e57164a84365185613aa165844126:./instanceOf.js";
+function $ee7e57164a84365185613aa165844126$export$9099ad97b570f7c(element) {
+    if ($ee7e57164a84365185613aa165844126$import$4bdf6051907467b6$9099ad97b570f7c(element) === 'html') return element;
+    return(// $FlowFixMe[incompatible-return]
+    // $FlowFixMe[prop-missing]
+    element.assignedSlot || element.parentNode || ($ee7e57164a84365185613aa165844126$import$2b619be5b27ce3d0$e8660f0e392f8a6e(element) ? element.host : null) || // $FlowFixMe[incompatible-call]: HTMLElement is a Node
+    $ee7e57164a84365185613aa165844126$import$e5609743a9ff7976$9099ad97b570f7c(element));
+}

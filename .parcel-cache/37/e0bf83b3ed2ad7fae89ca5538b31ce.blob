@@ -1,0 +1,4 @@
+import   "53863fdabcd460a3601faf3952b8f1ba:./math.js";
+function $53863fdabcd460a3601faf3952b8f1ba$export$9099ad97b570f7c(min, value, max) {
+    return $53863fdabcd460a3601faf3952b8f1ba$import$c86d506cceb1eaf1$ffab2942a44255a3(min, $53863fdabcd460a3601faf3952b8f1ba$import$c86d506cceb1eaf1$d2311d9befc976e2(value, max));
+}

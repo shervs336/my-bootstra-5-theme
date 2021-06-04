@@ -1,0 +1,6 @@
+function $9363e664cc7afdc1d873fcd6b404729c$export$9099ad97b570f7c(element) {
+    return {
+        scrollLeft: element.scrollLeft,
+        scrollTop: element.scrollTop
+    };
+}

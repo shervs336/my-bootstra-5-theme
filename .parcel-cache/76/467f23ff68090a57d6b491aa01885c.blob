@@ -1,0 +1,5 @@
+import   "9b4c24eba7f64a9e9a18084d2dd5a82e:./instanceOf.js";
+function $9b4c24eba7f64a9e9a18084d2dd5a82e$export$9099ad97b570f7c(element) {
+    // $FlowFixMe[incompatible-return]: assume body is always available
+    return (($9b4c24eba7f64a9e9a18084d2dd5a82e$import$2b619be5b27ce3d0$91dc0a56c48748ff(element) ? element.ownerDocument : element.document) || window.document).documentElement;
+}

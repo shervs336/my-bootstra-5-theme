@@ -1,0 +1,107 @@
+import   "c5b767cc54fe0540e89f2843187c77de:../enums.js";
+import   "c5b767cc54fe0540e89f2843187c77de:../dom-utils/getOffsetParent.js";
+import   "c5b767cc54fe0540e89f2843187c77de:../dom-utils/getWindow.js";
+import   "c5b767cc54fe0540e89f2843187c77de:../dom-utils/getDocumentElement.js";
+import   "c5b767cc54fe0540e89f2843187c77de:../dom-utils/getComputedStyle.js";
+import   "c5b767cc54fe0540e89f2843187c77de:../utils/getBasePlacement.js";
+import   "c5b767cc54fe0540e89f2843187c77de:../utils/math.js";
+var $c5b767cc54fe0540e89f2843187c77de$var$unsetSides = {
+    top: 'auto',
+    right: 'auto',
+    bottom: 'auto',
+    left: 'auto'
+}; // Round the offsets to the nearest suitable subpixel based on the DPR.
+// Zooming can change the DPR, but it seems to report a value that will
+// cleanly divide the values into the appropriate subpixels.
+function $c5b767cc54fe0540e89f2843187c77de$var$roundOffsetsByDPR(_ref) {
+    var x = _ref.x, y = _ref.y;
+    var win = window;
+    var dpr = win.devicePixelRatio || 1;
+    return {
+        x: $c5b767cc54fe0540e89f2843187c77de$import$c7001cdb7ba93dc7$f9488fbfb886385d($c5b767cc54fe0540e89f2843187c77de$import$c7001cdb7ba93dc7$f9488fbfb886385d(x * dpr) / dpr) || 0,
+        y: $c5b767cc54fe0540e89f2843187c77de$import$c7001cdb7ba93dc7$f9488fbfb886385d($c5b767cc54fe0540e89f2843187c77de$import$c7001cdb7ba93dc7$f9488fbfb886385d(y * dpr) / dpr) || 0
+    };
+}
+function $c5b767cc54fe0540e89f2843187c77de$export$abed9a1ceb6eef1b(_ref2) {
+    var _Object$assign2;
+    var popper = _ref2.popper, popperRect = _ref2.popperRect, placement = _ref2.placement, offsets = _ref2.offsets, position = _ref2.position, gpuAcceleration = _ref2.gpuAcceleration, adaptive = _ref2.adaptive, roundOffsets = _ref2.roundOffsets;
+    var _ref3 = roundOffsets === true ? $c5b767cc54fe0540e89f2843187c77de$var$roundOffsetsByDPR(offsets) : typeof roundOffsets === 'function' ? roundOffsets(offsets) : offsets, _ref3$x = _ref3.x, x = _ref3$x === void 0 ? 0 : _ref3$x, _ref3$y = _ref3.y, y = _ref3$y === void 0 ? 0 : _ref3$y;
+    var hasX = offsets.hasOwnProperty('x');
+    var hasY = offsets.hasOwnProperty('y');
+    var sideX = $c5b767cc54fe0540e89f2843187c77de$import$88f92b88dee0affc$febc29d6ae0474e5;
+    var sideY = $c5b767cc54fe0540e89f2843187c77de$import$88f92b88dee0affc$7cbaf698fabef892;
+    var win = window;
+    if (adaptive) {
+        var offsetParent = $c5b767cc54fe0540e89f2843187c77de$import$64b28769bda720f4$9099ad97b570f7c(popper);
+        var heightProp = 'clientHeight';
+        var widthProp = 'clientWidth';
+        if (offsetParent === $c5b767cc54fe0540e89f2843187c77de$import$6c06eb4f00bec306$9099ad97b570f7c(popper)) {
+            offsetParent = $c5b767cc54fe0540e89f2843187c77de$import$fa3c90fcd8942cc$9099ad97b570f7c(popper);
+            if ($c5b767cc54fe0540e89f2843187c77de$import$b400196b3b4e6c7f$9099ad97b570f7c(offsetParent).position !== 'static') {
+                heightProp = 'scrollHeight';
+                widthProp = 'scrollWidth';
+            }
+        } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
+        if (placement === $c5b767cc54fe0540e89f2843187c77de$import$88f92b88dee0affc$7cbaf698fabef892) {
+            sideY = $c5b767cc54fe0540e89f2843187c77de$import$88f92b88dee0affc$4671657546f52557; // $FlowFixMe[prop-missing]
+            y -= offsetParent[heightProp] - popperRect.height;
+            y *= gpuAcceleration ? 1 : -1;
+        }
+        if (placement === $c5b767cc54fe0540e89f2843187c77de$import$88f92b88dee0affc$febc29d6ae0474e5) {
+            sideX = $c5b767cc54fe0540e89f2843187c77de$import$88f92b88dee0affc$2ea344c6f4e18f30; // $FlowFixMe[prop-missing]
+            x -= offsetParent[widthProp] - popperRect.width;
+            x *= gpuAcceleration ? 1 : -1;
+        }
+    }
+    var commonStyles = Object.assign({
+        position: position
+    }, adaptive && $c5b767cc54fe0540e89f2843187c77de$var$unsetSides);
+    if (gpuAcceleration) {
+        var _Object$assign;
+        return Object.assign({
+        }, commonStyles, (_Object$assign = {
+        }, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) < 2 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
+    }
+    return Object.assign({
+    }, commonStyles, (_Object$assign2 = {
+    }, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
+}
+function $c5b767cc54fe0540e89f2843187c77de$var$computeStyles(_ref4) {
+    var state = _ref4.state, options = _ref4.options;
+    var _options$gpuAccelerat = options.gpuAcceleration, gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat, _options$adaptive = options.adaptive, adaptive = _options$adaptive === void 0 ? true : _options$adaptive, _options$roundOffsets = options.roundOffsets, roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
+    var transitionProperty, property;
+    var commonStyles = {
+        placement: $c5b767cc54fe0540e89f2843187c77de$import$1ae2404101a162fe$9099ad97b570f7c(state.placement),
+        popper: state.elements.popper,
+        popperRect: state.rects.popper,
+        gpuAcceleration: gpuAcceleration
+    };
+    if (state.modifiersData.popperOffsets != null) state.styles.popper = Object.assign({
+    }, state.styles.popper, $c5b767cc54fe0540e89f2843187c77de$export$abed9a1ceb6eef1b(Object.assign({
+    }, commonStyles, {
+        offsets: state.modifiersData.popperOffsets,
+        position: state.options.strategy,
+        adaptive: adaptive,
+        roundOffsets: roundOffsets
+    })));
+    if (state.modifiersData.arrow != null) state.styles.arrow = Object.assign({
+    }, state.styles.arrow, $c5b767cc54fe0540e89f2843187c77de$export$abed9a1ceb6eef1b(Object.assign({
+    }, commonStyles, {
+        offsets: state.modifiersData.arrow,
+        position: 'absolute',
+        adaptive: false,
+        roundOffsets: roundOffsets
+    })));
+    state.attributes.popper = Object.assign({
+    }, state.attributes.popper, {
+        'data-popper-placement': state.placement
+    });
+} // eslint-disable-next-line import/no-unused-modules
+var $c5b767cc54fe0540e89f2843187c77de$export$9099ad97b570f7c = {
+    name: 'computeStyles',
+    enabled: true,
+    phase: 'beforeWrite',
+    fn: $c5b767cc54fe0540e89f2843187c77de$var$computeStyles,
+    data: {
+    }
+};

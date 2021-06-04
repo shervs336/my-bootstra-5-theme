@@ -1,0 +1,4 @@
+import   "e984e7f4a4b36555230a487ed0057636:./getWindow.js";
+function $e984e7f4a4b36555230a487ed0057636$export$9099ad97b570f7c(element) {
+    return $e984e7f4a4b36555230a487ed0057636$import$f7002d1ac9f67024$9099ad97b570f7c(element).getComputedStyle(element);
+}

@@ -1,0 +1,3 @@
+function $84e74fb13255400ea1efadf6dad21f57$export$9099ad97b570f7c(axis) {
+    return axis === 'x' ? 'y' : 'x';
+}

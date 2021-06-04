@@ -1,0 +1,6 @@
+import   "c8ba416ec6b1ffdf356ad121cbdfc049:./getComputedStyle.js";
+function $c8ba416ec6b1ffdf356ad121cbdfc049$export$9099ad97b570f7c(element) {
+    // Firefox wants us to check `-x` and `-y` variations as well
+    var _getComputedStyle = $c8ba416ec6b1ffdf356ad121cbdfc049$import$4e3bd0330bffab4a$9099ad97b570f7c(element), overflow = _getComputedStyle.overflow, overflowX = _getComputedStyle.overflowX, overflowY = _getComputedStyle.overflowY;
+    return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+}

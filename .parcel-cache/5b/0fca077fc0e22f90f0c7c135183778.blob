@@ -1,0 +1,70 @@
+import   "8ada041d8ad7ca33e19d1db644325478:../dom-utils/getNodeName.js";
+import   "8ada041d8ad7ca33e19d1db644325478:../dom-utils/instanceOf.js";
+// and applies them to the HTMLElements such as popper and arrow
+function $8ada041d8ad7ca33e19d1db644325478$var$applyStyles(_ref) {
+    var state = _ref.state;
+    Object.keys(state.elements).forEach(function(name) {
+        var style = state.styles[name] || {
+        };
+        var attributes = state.attributes[name] || {
+        };
+        var element = state.elements[name]; // arrow is optional + virtual elements
+        if (!$8ada041d8ad7ca33e19d1db644325478$import$4d5facee80e07a36$1c7f855bfd87edc1(element) || !$8ada041d8ad7ca33e19d1db644325478$import$6affbe16e51f1949$9099ad97b570f7c(element)) return;
+         // Flow doesn't support to extend this property, but it's the most
+        // effective way to apply styles to an HTMLElement
+        // $FlowFixMe[cannot-write]
+        Object.assign(element.style, style);
+        Object.keys(attributes).forEach(function(name1) {
+            var value = attributes[name1];
+            if (value === false) element.removeAttribute(name1);
+            else element.setAttribute(name1, value === true ? '' : value);
+        });
+    });
+}
+function $8ada041d8ad7ca33e19d1db644325478$var$effect(_ref2) {
+    var state = _ref2.state;
+    var initialStyles = {
+        popper: {
+            position: state.options.strategy,
+            left: '0',
+            top: '0',
+            margin: '0'
+        },
+        arrow: {
+            position: 'absolute'
+        },
+        reference: {
+        }
+    };
+    Object.assign(state.elements.popper.style, initialStyles.popper);
+    state.styles = initialStyles;
+    if (state.elements.arrow) Object.assign(state.elements.arrow.style, initialStyles.arrow);
+    return function() {
+        Object.keys(state.elements).forEach(function(name) {
+            var element = state.elements[name];
+            var attributes = state.attributes[name] || {
+            };
+            var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]); // Set all values to an empty string to unset them
+            var style = styleProperties.reduce(function(style1, property) {
+                style1[property] = '';
+                return style1;
+            }, {
+            }); // arrow is optional + virtual elements
+            if (!$8ada041d8ad7ca33e19d1db644325478$import$4d5facee80e07a36$1c7f855bfd87edc1(element) || !$8ada041d8ad7ca33e19d1db644325478$import$6affbe16e51f1949$9099ad97b570f7c(element)) return;
+            Object.assign(element.style, style);
+            Object.keys(attributes).forEach(function(attribute) {
+                element.removeAttribute(attribute);
+            });
+        });
+    };
+} // eslint-disable-next-line import/no-unused-modules
+var $8ada041d8ad7ca33e19d1db644325478$export$9099ad97b570f7c = {
+    name: 'applyStyles',
+    enabled: true,
+    phase: 'write',
+    fn: $8ada041d8ad7ca33e19d1db644325478$var$applyStyles,
+    effect: $8ada041d8ad7ca33e19d1db644325478$var$effect,
+    requires: [
+        'computeStyles'
+    ]
+};

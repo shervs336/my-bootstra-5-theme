@@ -1,0 +1,31 @@
+import   "6fc87d5101782b3c9338a922eadf76bb:./getVariation.js";
+import   "6fc87d5101782b3c9338a922eadf76bb:../enums.js";
+import   "6fc87d5101782b3c9338a922eadf76bb:./detectOverflow.js";
+import   "6fc87d5101782b3c9338a922eadf76bb:./getBasePlacement.js";
+function $6fc87d5101782b3c9338a922eadf76bb$export$9099ad97b570f7c(state, options) {
+    if (options === void 0) options = {
+    };
+    var _options = options, placement = _options.placement, boundary = _options.boundary, rootBoundary = _options.rootBoundary, padding = _options.padding, flipVariations = _options.flipVariations, _options$allowedAutoP = _options.allowedAutoPlacements, allowedAutoPlacements = _options$allowedAutoP === void 0 ? $6fc87d5101782b3c9338a922eadf76bb$import$88f92b88dee0affc$de70404ba7dda3a8 : _options$allowedAutoP;
+    var variation = $6fc87d5101782b3c9338a922eadf76bb$import$40d49ce8c21db176$9099ad97b570f7c(placement);
+    var placements = variation ? flipVariations ? $6fc87d5101782b3c9338a922eadf76bb$import$88f92b88dee0affc$bb2c2dfcb4a647ed : $6fc87d5101782b3c9338a922eadf76bb$import$88f92b88dee0affc$bb2c2dfcb4a647ed.filter(function(placement1) {
+        return $6fc87d5101782b3c9338a922eadf76bb$import$40d49ce8c21db176$9099ad97b570f7c(placement1) === variation;
+    }) : $6fc87d5101782b3c9338a922eadf76bb$import$88f92b88dee0affc$69ccf582aabcc804;
+    var allowedPlacements = placements.filter(function(placement1) {
+        return allowedAutoPlacements.indexOf(placement1) >= 0;
+    });
+    if (allowedPlacements.length === 0) allowedPlacements = placements;
+     // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
+    var overflows = allowedPlacements.reduce(function(acc, placement1) {
+        acc[placement1] = $6fc87d5101782b3c9338a922eadf76bb$import$ea946f1f1612a027$9099ad97b570f7c(state, {
+            placement: placement1,
+            boundary: boundary,
+            rootBoundary: rootBoundary,
+            padding: padding
+        })[$6fc87d5101782b3c9338a922eadf76bb$import$ce46c78b8ac3d45a$9099ad97b570f7c(placement1)];
+        return acc;
+    }, {
+    });
+    return Object.keys(overflows).sort(function(a, b) {
+        return overflows[a] - overflows[b];
+    });
+}

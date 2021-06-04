@@ -1,0 +1,15 @@
+import   "cab4017cd5722fb69dfafc23c9b7959e:./getWindow.js";
+function $cab4017cd5722fb69dfafc23c9b7959e$export$91dc0a56c48748ff(node) {
+    var OwnElement = $cab4017cd5722fb69dfafc23c9b7959e$import$f7002d1ac9f67024$9099ad97b570f7c(node).Element;
+    return node instanceof OwnElement || node instanceof Element;
+}
+function $cab4017cd5722fb69dfafc23c9b7959e$export$1c7f855bfd87edc1(node) {
+    var OwnElement = $cab4017cd5722fb69dfafc23c9b7959e$import$f7002d1ac9f67024$9099ad97b570f7c(node).HTMLElement;
+    return node instanceof OwnElement || node instanceof HTMLElement;
+}
+function $cab4017cd5722fb69dfafc23c9b7959e$export$e8660f0e392f8a6e(node) {
+    // IE 11 has no ShadowRoot
+    if (typeof ShadowRoot === 'undefined') return false;
+    var OwnElement = $cab4017cd5722fb69dfafc23c9b7959e$import$f7002d1ac9f67024$9099ad97b570f7c(node).ShadowRoot;
+    return node instanceof OwnElement || node instanceof ShadowRoot;
+}

@@ -1,0 +1,14 @@
+import   "4c7dcc675774d5245ea35d9e0276aa2f:./getParentNode.js";
+import   "4c7dcc675774d5245ea35d9e0276aa2f:./isScrollParent.js";
+import   "4c7dcc675774d5245ea35d9e0276aa2f:./getNodeName.js";
+import   "4c7dcc675774d5245ea35d9e0276aa2f:./instanceOf.js";
+function $4c7dcc675774d5245ea35d9e0276aa2f$export$9099ad97b570f7c(node) {
+    if ([
+        'html',
+        'body',
+        '#document'
+    ].indexOf($4c7dcc675774d5245ea35d9e0276aa2f$import$4bdf6051907467b6$9099ad97b570f7c(node)) >= 0) // $FlowFixMe[incompatible-return]: assume body is always available
+    return node.ownerDocument.body;
+    if ($4c7dcc675774d5245ea35d9e0276aa2f$import$2b619be5b27ce3d0$1c7f855bfd87edc1(node) && $4c7dcc675774d5245ea35d9e0276aa2f$import$b9738bc120b10d64$9099ad97b570f7c(node)) return node;
+    return $4c7dcc675774d5245ea35d9e0276aa2f$export$9099ad97b570f7c($4c7dcc675774d5245ea35d9e0276aa2f$import$55e8da2e08ef22b$9099ad97b570f7c(node));
+}

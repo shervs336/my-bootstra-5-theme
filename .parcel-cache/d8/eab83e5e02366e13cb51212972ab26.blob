@@ -1,0 +1,73 @@
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../utils/getBasePlacement.js";
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../dom-utils/getLayoutRect.js";
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../dom-utils/contains.js";
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../dom-utils/getOffsetParent.js";
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../utils/getMainAxisFromPlacement.js";
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../utils/within.js";
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../utils/mergePaddingObject.js";
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../utils/expandToHashMap.js";
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../enums.js";
+import   "d6e412e1c3d2019b2c19efedf20d57ee:../dom-utils/instanceOf.js";
+var $d6e412e1c3d2019b2c19efedf20d57ee$var$toPaddingObject = function toPaddingObject(padding, state) {
+    padding = typeof padding === 'function' ? padding(Object.assign({
+    }, state.rects, {
+        placement: state.placement
+    })) : padding;
+    return $d6e412e1c3d2019b2c19efedf20d57ee$import$a32842c068585e38$9099ad97b570f7c(typeof padding !== 'number' ? padding : $d6e412e1c3d2019b2c19efedf20d57ee$import$388e77975fb1e1cc$9099ad97b570f7c(padding, $d6e412e1c3d2019b2c19efedf20d57ee$import$88f92b88dee0affc$69ccf582aabcc804));
+};
+function $d6e412e1c3d2019b2c19efedf20d57ee$var$arrow(_ref) {
+    var _state$modifiersData$;
+    var state = _ref.state, name = _ref.name, options = _ref.options;
+    var arrowElement = state.elements.arrow;
+    var popperOffsets = state.modifiersData.popperOffsets;
+    var basePlacement = $d6e412e1c3d2019b2c19efedf20d57ee$import$1ae2404101a162fe$9099ad97b570f7c(state.placement);
+    var axis = $d6e412e1c3d2019b2c19efedf20d57ee$import$14f76a9f34039e9f$9099ad97b570f7c(basePlacement);
+    var isVertical = [
+        $d6e412e1c3d2019b2c19efedf20d57ee$import$88f92b88dee0affc$febc29d6ae0474e5,
+        $d6e412e1c3d2019b2c19efedf20d57ee$import$88f92b88dee0affc$2ea344c6f4e18f30
+    ].indexOf(basePlacement) >= 0;
+    var len = isVertical ? 'height' : 'width';
+    if (!arrowElement || !popperOffsets) return;
+    var paddingObject = $d6e412e1c3d2019b2c19efedf20d57ee$var$toPaddingObject(options.padding, state);
+    var arrowRect = $d6e412e1c3d2019b2c19efedf20d57ee$import$99a87cfb9afb5f36$9099ad97b570f7c(arrowElement);
+    var minProp = axis === 'y' ? $d6e412e1c3d2019b2c19efedf20d57ee$import$88f92b88dee0affc$7cbaf698fabef892 : $d6e412e1c3d2019b2c19efedf20d57ee$import$88f92b88dee0affc$febc29d6ae0474e5;
+    var maxProp = axis === 'y' ? $d6e412e1c3d2019b2c19efedf20d57ee$import$88f92b88dee0affc$4671657546f52557 : $d6e412e1c3d2019b2c19efedf20d57ee$import$88f92b88dee0affc$2ea344c6f4e18f30;
+    var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
+    var startDiff = popperOffsets[axis] - state.rects.reference[axis];
+    var arrowOffsetParent = $d6e412e1c3d2019b2c19efedf20d57ee$import$64b28769bda720f4$9099ad97b570f7c(arrowElement);
+    var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
+    var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
+    // outside of the popper bounds
+    var min = paddingObject[minProp];
+    var max = clientSize - arrowRect[len] - paddingObject[maxProp];
+    var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
+    var offset = $d6e412e1c3d2019b2c19efedf20d57ee$import$8835fd40e81c8378$9099ad97b570f7c(min, center, max); // Prevents breaking syntax highlighting...
+    var axisProp = axis;
+    state.modifiersData[name] = (_state$modifiersData$ = {
+    }, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
+}
+function $d6e412e1c3d2019b2c19efedf20d57ee$var$effect(_ref2) {
+    var state = _ref2.state, options = _ref2.options;
+    var _options$element = options.element, arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
+    if (arrowElement == null) return;
+     // CSS selector
+    if (typeof arrowElement === 'string') {
+        arrowElement = state.elements.popper.querySelector(arrowElement);
+        if (!arrowElement) return;
+    }
+    if (!$d6e412e1c3d2019b2c19efedf20d57ee$import$d295657276d89e25$9099ad97b570f7c(state.elements.popper, arrowElement)) return;
+    state.elements.arrow = arrowElement;
+} // eslint-disable-next-line import/no-unused-modules
+var $d6e412e1c3d2019b2c19efedf20d57ee$export$9099ad97b570f7c = {
+    name: 'arrow',
+    enabled: true,
+    phase: 'main',
+    fn: $d6e412e1c3d2019b2c19efedf20d57ee$var$arrow,
+    effect: $d6e412e1c3d2019b2c19efedf20d57ee$var$effect,
+    requires: [
+        'popperOffsets'
+    ],
+    requiresIfExists: [
+        'preventOverflow'
+    ]
+};

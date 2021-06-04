@@ -1,0 +1,112 @@
+import   "6a07c73ea3318b7b7a3afb5bd745f44e:../utils/getOppositePlacement.js";
+import   "6a07c73ea3318b7b7a3afb5bd745f44e:../utils/getBasePlacement.js";
+import   "6a07c73ea3318b7b7a3afb5bd745f44e:../utils/getOppositeVariationPlacement.js";
+import   "6a07c73ea3318b7b7a3afb5bd745f44e:../utils/detectOverflow.js";
+import   "6a07c73ea3318b7b7a3afb5bd745f44e:../utils/computeAutoPlacement.js";
+import   "6a07c73ea3318b7b7a3afb5bd745f44e:../enums.js";
+import   "6a07c73ea3318b7b7a3afb5bd745f44e:../utils/getVariation.js";
+function $6a07c73ea3318b7b7a3afb5bd745f44e$var$getExpandedFallbackPlacements(placement) {
+    if ($6a07c73ea3318b7b7a3afb5bd745f44e$import$1ae2404101a162fe$9099ad97b570f7c(placement) === $6a07c73ea3318b7b7a3afb5bd745f44e$import$88f92b88dee0affc$a9bdd2aafec72a8) return [];
+    var oppositePlacement = $6a07c73ea3318b7b7a3afb5bd745f44e$import$cc8aedc77dbb3373$9099ad97b570f7c(placement);
+    return [
+        $6a07c73ea3318b7b7a3afb5bd745f44e$import$e00f74790b7edd7$9099ad97b570f7c(placement),
+        oppositePlacement,
+        $6a07c73ea3318b7b7a3afb5bd745f44e$import$e00f74790b7edd7$9099ad97b570f7c(oppositePlacement)
+    ];
+}
+function $6a07c73ea3318b7b7a3afb5bd745f44e$var$flip(_ref) {
+    var state = _ref.state, options = _ref.options, name = _ref.name;
+    if (state.modifiersData[name]._skip) return;
+    var _options$mainAxis = options.mainAxis, checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis, _options$altAxis = options.altAxis, checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis, specifiedFallbackPlacements = options.fallbackPlacements, padding = options.padding, boundary = options.boundary, rootBoundary = options.rootBoundary, altBoundary = options.altBoundary, _options$flipVariatio = options.flipVariations, flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio, allowedAutoPlacements = options.allowedAutoPlacements;
+    var preferredPlacement = state.options.placement;
+    var basePlacement = $6a07c73ea3318b7b7a3afb5bd745f44e$import$1ae2404101a162fe$9099ad97b570f7c(preferredPlacement);
+    var isBasePlacement = basePlacement === preferredPlacement;
+    var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [
+        $6a07c73ea3318b7b7a3afb5bd745f44e$import$cc8aedc77dbb3373$9099ad97b570f7c(preferredPlacement)
+    ] : $6a07c73ea3318b7b7a3afb5bd745f44e$var$getExpandedFallbackPlacements(preferredPlacement));
+    var placements = [
+        preferredPlacement
+    ].concat(fallbackPlacements).reduce(function(acc, placement) {
+        return acc.concat($6a07c73ea3318b7b7a3afb5bd745f44e$import$1ae2404101a162fe$9099ad97b570f7c(placement) === $6a07c73ea3318b7b7a3afb5bd745f44e$import$88f92b88dee0affc$a9bdd2aafec72a8 ? $6a07c73ea3318b7b7a3afb5bd745f44e$import$90eae00821d352$9099ad97b570f7c(state, {
+            placement: placement,
+            boundary: boundary,
+            rootBoundary: rootBoundary,
+            padding: padding,
+            flipVariations: flipVariations,
+            allowedAutoPlacements: allowedAutoPlacements
+        }) : placement);
+    }, []);
+    var referenceRect = state.rects.reference;
+    var popperRect = state.rects.popper;
+    var checksMap = new Map();
+    var makeFallbackChecks = true;
+    var firstFittingPlacement = placements[0];
+    for(var i = 0; i < placements.length; i++){
+        var placement = placements[i];
+        var _basePlacement = $6a07c73ea3318b7b7a3afb5bd745f44e$import$1ae2404101a162fe$9099ad97b570f7c(placement);
+        var isStartVariation = $6a07c73ea3318b7b7a3afb5bd745f44e$import$8887cdf4fa97f987$9099ad97b570f7c(placement) === $6a07c73ea3318b7b7a3afb5bd745f44e$import$88f92b88dee0affc$42328a91b0e9c643;
+        var isVertical = [
+            $6a07c73ea3318b7b7a3afb5bd745f44e$import$88f92b88dee0affc$7cbaf698fabef892,
+            $6a07c73ea3318b7b7a3afb5bd745f44e$import$88f92b88dee0affc$4671657546f52557
+        ].indexOf(_basePlacement) >= 0;
+        var len = isVertical ? 'width' : 'height';
+        var overflow = $6a07c73ea3318b7b7a3afb5bd745f44e$import$af3f80d568970827$9099ad97b570f7c(state, {
+            placement: placement,
+            boundary: boundary,
+            rootBoundary: rootBoundary,
+            altBoundary: altBoundary,
+            padding: padding
+        });
+        var mainVariationSide = isVertical ? isStartVariation ? $6a07c73ea3318b7b7a3afb5bd745f44e$import$88f92b88dee0affc$2ea344c6f4e18f30 : $6a07c73ea3318b7b7a3afb5bd745f44e$import$88f92b88dee0affc$febc29d6ae0474e5 : isStartVariation ? $6a07c73ea3318b7b7a3afb5bd745f44e$import$88f92b88dee0affc$4671657546f52557 : $6a07c73ea3318b7b7a3afb5bd745f44e$import$88f92b88dee0affc$7cbaf698fabef892;
+        if (referenceRect[len] > popperRect[len]) mainVariationSide = $6a07c73ea3318b7b7a3afb5bd745f44e$import$cc8aedc77dbb3373$9099ad97b570f7c(mainVariationSide);
+        var altVariationSide = $6a07c73ea3318b7b7a3afb5bd745f44e$import$cc8aedc77dbb3373$9099ad97b570f7c(mainVariationSide);
+        var checks = [];
+        if (checkMainAxis) checks.push(overflow[_basePlacement] <= 0);
+        if (checkAltAxis) checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
+        if (checks.every(function(check) {
+            return check;
+        })) {
+            firstFittingPlacement = placement;
+            makeFallbackChecks = false;
+            break;
+        }
+        checksMap.set(placement, checks);
+    }
+    if (makeFallbackChecks) {
+        // `2` may be desired in some cases – research later
+        var numberOfChecks = flipVariations ? 3 : 1;
+        var _loop = function _loop1(_i) {
+            var fittingPlacement = placements.find(function(placement) {
+                var checks = checksMap.get(placement);
+                if (checks) return checks.slice(0, _i).every(function(check) {
+                    return check;
+                });
+            });
+            if (fittingPlacement) {
+                firstFittingPlacement = fittingPlacement;
+                return "break";
+            }
+        };
+        for(var _i = numberOfChecks; _i > 0; _i--){
+            var _ret = _loop(_i);
+            if (_ret === "break") break;
+        }
+    }
+    if (state.placement !== firstFittingPlacement) {
+        state.modifiersData[name]._skip = true;
+        state.placement = firstFittingPlacement;
+        state.reset = true;
+    }
+} // eslint-disable-next-line import/no-unused-modules
+var $6a07c73ea3318b7b7a3afb5bd745f44e$export$9099ad97b570f7c = {
+    name: 'flip',
+    enabled: true,
+    phase: 'main',
+    fn: $6a07c73ea3318b7b7a3afb5bd745f44e$var$flip,
+    requiresIfExists: [
+        'offset'
+    ],
+    data: {
+        _skip: false
+    }
+};

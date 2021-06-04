@@ -1,0 +1,13 @@
+import   "510f7994583ef47fdcd2eaaa373b26b1:./getBoundingClientRect.js";
+import   "510f7994583ef47fdcd2eaaa373b26b1:./getDocumentElement.js";
+import   "510f7994583ef47fdcd2eaaa373b26b1:./getWindowScroll.js";
+function $510f7994583ef47fdcd2eaaa373b26b1$export$9099ad97b570f7c(element) {
+    // If <html> has a CSS width greater than the viewport, then this will be
+    // incorrect for RTL.
+    // Popper 1 is broken in this case and never had a bug report so let's assume
+    // it's not an issue. I don't think anyone ever specifies width on <html>
+    // anyway.
+    // Browsers where the left scrollbar doesn't cause an issue report `0` for
+    // this (e.g. Edge 2019, IE11, Safari)
+    return $510f7994583ef47fdcd2eaaa373b26b1$import$96dd0daaf69028d6$9099ad97b570f7c($510f7994583ef47fdcd2eaaa373b26b1$import$e5609743a9ff7976$9099ad97b570f7c(element)).left + $510f7994583ef47fdcd2eaaa373b26b1$import$f34ad2ff624e8ed0$9099ad97b570f7c(element).scrollLeft;
+}

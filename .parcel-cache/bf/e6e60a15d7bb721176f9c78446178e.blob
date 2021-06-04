@@ -1,0 +1,3 @@
+function $feb41526581850cb820ee0a9f2c56a88$export$9099ad97b570f7c(element) {
+    return element ? (element.nodeName || '').toLowerCase() : null;
+}

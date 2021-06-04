@@ -1,0 +1,35 @@
+import   "06976fb92e62b17e6fb7722633baf48f:./getBoundingClientRect.js";
+import   "06976fb92e62b17e6fb7722633baf48f:./getNodeScroll.js";
+import   "06976fb92e62b17e6fb7722633baf48f:./getNodeName.js";
+import   "06976fb92e62b17e6fb7722633baf48f:./instanceOf.js";
+import   "06976fb92e62b17e6fb7722633baf48f:./getWindowScrollBarX.js";
+import   "06976fb92e62b17e6fb7722633baf48f:./getDocumentElement.js";
+import   "06976fb92e62b17e6fb7722633baf48f:./isScrollParent.js";
+function $06976fb92e62b17e6fb7722633baf48f$export$9099ad97b570f7c(elementOrVirtualElement, offsetParent, isFixed) {
+    if (isFixed === void 0) isFixed = false;
+    var documentElement = $06976fb92e62b17e6fb7722633baf48f$import$e5609743a9ff7976$9099ad97b570f7c(offsetParent);
+    var rect = $06976fb92e62b17e6fb7722633baf48f$import$96dd0daaf69028d6$9099ad97b570f7c(elementOrVirtualElement);
+    var isOffsetParentAnElement = $06976fb92e62b17e6fb7722633baf48f$import$2b619be5b27ce3d0$1c7f855bfd87edc1(offsetParent);
+    var scroll = {
+        scrollLeft: 0,
+        scrollTop: 0
+    };
+    var offsets = {
+        x: 0,
+        y: 0
+    };
+    if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
+        if ($06976fb92e62b17e6fb7722633baf48f$import$4bdf6051907467b6$9099ad97b570f7c(offsetParent) !== 'body' || $06976fb92e62b17e6fb7722633baf48f$import$b9738bc120b10d64$9099ad97b570f7c(documentElement)) scroll = $06976fb92e62b17e6fb7722633baf48f$import$2e2a5985f0f071d3$9099ad97b570f7c(offsetParent);
+        if ($06976fb92e62b17e6fb7722633baf48f$import$2b619be5b27ce3d0$1c7f855bfd87edc1(offsetParent)) {
+            offsets = $06976fb92e62b17e6fb7722633baf48f$import$96dd0daaf69028d6$9099ad97b570f7c(offsetParent);
+            offsets.x += offsetParent.clientLeft;
+            offsets.y += offsetParent.clientTop;
+        } else if (documentElement) offsets.x = $06976fb92e62b17e6fb7722633baf48f$import$abc457ce98130c9e$9099ad97b570f7c(documentElement);
+    }
+    return {
+        x: rect.left + scroll.scrollLeft - offsets.x,
+        y: rect.top + scroll.scrollTop - offsets.y,
+        width: rect.width,
+        height: rect.height
+    };
+}

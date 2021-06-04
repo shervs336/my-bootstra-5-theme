@@ -1,0 +1,4 @@
+import   "e43a22bd8d37386a49ffd24afccf5590:../enums.js";
+function $e43a22bd8d37386a49ffd24afccf5590$export$9099ad97b570f7c(placement) {
+    return placement.split('-')[0];
+}

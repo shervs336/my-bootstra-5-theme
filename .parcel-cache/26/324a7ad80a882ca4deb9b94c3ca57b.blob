@@ -1,0 +1,13 @@
+function $347be1892f6638dd3015c7e935a28cd3$export$9099ad97b570f7c(element) {
+    var rect = element.getBoundingClientRect();
+    return {
+        width: rect.width,
+        height: rect.height,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        left: rect.left,
+        x: rect.left,
+        y: rect.top
+    };
+}

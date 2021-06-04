@@ -1,0 +1,9 @@
+function $8b2805f37534c1b04e1241cd290d56dd$export$9099ad97b570f7c(rect) {
+    return Object.assign({
+    }, rect, {
+        left: rect.x,
+        top: rect.y,
+        right: rect.x + rect.width,
+        bottom: rect.y + rect.height
+    });
+}

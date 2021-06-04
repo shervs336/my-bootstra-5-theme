@@ -1,0 +1,16 @@
+import   "6ee57d0f12f34837955114a4946dd3c4:./getScrollParent.js";
+import   "6ee57d0f12f34837955114a4946dd3c4:./getParentNode.js";
+import   "6ee57d0f12f34837955114a4946dd3c4:./getWindow.js";
+import   "6ee57d0f12f34837955114a4946dd3c4:./isScrollParent.js";
+function $6ee57d0f12f34837955114a4946dd3c4$export$9099ad97b570f7c(element, list) {
+    var _element$ownerDocumen;
+    if (list === void 0) list = [];
+    var scrollParent = $6ee57d0f12f34837955114a4946dd3c4$import$b85727325c06d250$9099ad97b570f7c(element);
+    var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
+    var win = $6ee57d0f12f34837955114a4946dd3c4$import$f7002d1ac9f67024$9099ad97b570f7c(scrollParent);
+    var target = isBody ? [
+        win
+    ].concat(win.visualViewport || [], $6ee57d0f12f34837955114a4946dd3c4$import$b9738bc120b10d64$9099ad97b570f7c(scrollParent) ? scrollParent : []) : scrollParent;
+    var updatedList = list.concat(target);
+    return isBody ? updatedList : updatedList.concat($6ee57d0f12f34837955114a4946dd3c4$export$9099ad97b570f7c($6ee57d0f12f34837955114a4946dd3c4$import$55e8da2e08ef22b$9099ad97b570f7c(target)));
+}
